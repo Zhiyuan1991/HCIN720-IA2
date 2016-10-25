@@ -73,13 +73,13 @@
 			    $goal = $(".goal", $thermo),
 			    percentageAmount;
 
-			goalAmount = goalAmount || parseFloat( $goal.text() ),
-			progressAmount = progressAmount || parseFloat( $progress.text() ),
-			    percentageAmount =  Math.min( Math.round(progressAmount / goalAmount * 1000) / 10, 100); //make sure we have 1 decimal point
+			//goalAmount = goalAmount || parseFloat( $goal.text() ),
+			//progressAmount = progressAmount || parseFloat( $progress.text() ),
+			percentageAmount =  Math.min( Math.round(progressAmount / goalAmount * 1000) / 10, 100); //make sure we have 1 decimal point
 
 			//let's format the numbers and put them back in the DOM
 			$goal.find(".amount").text( formatCurrency( goalAmount ) +"cm");
-			    $progress.find(".amount").text(formatCurrency( progressAmount ) +"cm");
+			$progress.find(".amount").text(formatCurrency( progressAmount ) +"cm");
 
 			//let's set the progress indicator
 			$progress.find(".amount").hide();
