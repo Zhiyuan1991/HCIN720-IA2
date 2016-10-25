@@ -23,7 +23,7 @@
     			<div class="amount">80 </div>
     		</div>
     		<div class="progress">
-    			<div class="amount">15 </div>
+    			<div class="amount">0 </div>
     		</div>
     		</div>
 		</div>
@@ -36,9 +36,72 @@
 	<button onclick="start()">Connect</button>
 	
 	<script type="text/javascript">
-		var d=0;
-	    function start() {
+		function formatCurrency(n, c, d, t) 
+		{
+			"use strict";
 
+			var s, i, j;
+
+			c = isNaN(c = Math.abs(c)) ? 2 : c;
+			d = d === undefined ? "." : d;
+			t = t === undefined ? "," : t;
+
+			s = n < 0 ? "-" : "";
+			i = parseInt(n = Math.abs(+n || 0).toFixed(c), 10) + "";
+			j = (j = i.length) > 3 ? j % 3 : 0;
+
+			return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+		}
+
+			/**
+			 * Thermometer Progress meter.
+			 * This function will update the progress element in the "thermometer"
+			 * to the updated percentage.
+			 * If no parameters are passed in it will read them from the DOM
+			 *
+			 * @param {Number} goalAmount The Goal amount, this represents the 100% mark
+			 * @param {Number} progressAmount The progress amount is the current amount
+			 * @param {Boolean} animate Whether to animate the height or not
+			 *
+			 */
+		function thermometer(goalAmount, progressAmount, animate) 
+		{
+			"use strict";
+
+			var $thermo = $("#thermometer"),
+			    $progress = $(".progress", $thermo),
+			    $goal = $(".goal", $thermo),
+			    percentageAmount;
+
+			goalAmount = goalAmount || parseFloat( $goal.text() ),
+			progressAmount = progressAmount || parseFloat( $progress.text() ),
+			    percentageAmount =  Math.min( Math.round(progressAmount / goalAmount * 1000) / 10, 100); //make sure we have 1 decimal point
+
+			//let's format the numbers and put them back in the DOM
+			$goal.find(".amount").text( formatCurrency( goalAmount ) +"cm");
+			    $progress.find(".amount").text(formatCurrency( progressAmount ) +"cm");
+
+			//let's set the progress indicator
+			$progress.find(".amount").hide();
+			if (animate !== false) {
+			    $progress.animate({
+			       "height": percentageAmount + "%"
+			        }, 1200, function(){
+			        $(this).find(".amount").fadeIn(500);
+			    });
+			    }
+			    else {
+			    $progress.css({
+			        "height": percentageAmount + "%"
+			    });
+			    $progress.find(".amount").fadeIn(500);
+			    }
+			}
+
+		var d=0;
+		
+	    function start() 
+		{
 	        document.getElementById("data").innerHTML = "Waiting for data...";
 	        var deviceID = "380025001347343338333633";
 	        var accessToken = "8734299b639b819fcf341e4874fee78f80a03351";
@@ -61,78 +124,11 @@
 	            tempSpan.style.fontSize = "28px";
 	            tsSpan.innerHTML = "At timestamp " + parsedData.published_at;
 	            tsSpan.style.fontSize = "9px";
-				//thermometer(80,Math.min(d,80),true);
-				thermometer(80,12,true);
+				thermometer(80,Math.min(d,80),false);
+				//thermometer(80,12,true);
 	        }, false);
 			
 	    }
-	
-	
-	//originally from http://stackoverflow.com/questions/149055/how-can-i-format-numbers-as-money-in-javascript
-	function formatCurrency(n, c, d, t) {
-	    "use strict";
-
-	    var s, i, j;
-
-	    c = isNaN(c = Math.abs(c)) ? 2 : c;
-	    d = d === undefined ? "." : d;
-	    t = t === undefined ? "," : t;
-
-	    s = n < 0 ? "-" : "";
-	    i = parseInt(n = Math.abs(+n || 0).toFixed(c), 10) + "";
-	    j = (j = i.length) > 3 ? j % 3 : 0;
-
-	    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
-	}
-
-	/**
-	 * Thermometer Progress meter.
-	 * This function will update the progress element in the "thermometer"
-	 * to the updated percentage.
-	 * If no parameters are passed in it will read them from the DOM
-	 *
-	 * @param {Number} goalAmount The Goal amount, this represents the 100% mark
-	 * @param {Number} progressAmount The progress amount is the current amount
-	 * @param {Boolean} animate Whether to animate the height or not
-	 *
-	 */
-	function thermometer(goalAmount, progressAmount, animate) {
-	    "use strict";
-
-	    var $thermo = $("#thermometer"),
-	        $progress = $(".progress", $thermo),
-	        $goal = $(".goal", $thermo),
-	        percentageAmount;
-
-	    goalAmount = goalAmount || parseFloat( $goal.text() ),
-		//goalAmount = goalAmount || d,
-	    progressAmount = progressAmount || parseFloat( $progress.text() ),
-	    percentageAmount =  Math.min( Math.round(progressAmount / goalAmount * 1000) / 10, 100); //make sure we have 1 decimal point
-
-	    //let's format the numbers and put them back in the DOM
-	    $goal.find(".amount").text( formatCurrency( goalAmount ) +"cm");
-	    $progress.find(".amount").text(formatCurrency( progressAmount ) +"cm");
-
-
-	    //let's set the progress indicator
-	    $progress.find(".amount").hide();
-	    if (animate !== false) {
-	        $progress.animate({
-	            "height": percentageAmount + "%"
-	        }, 1200, function(){
-	            $(this).find(".amount").fadeIn(500);
-	        });
-	    }
-	    else {
-	        $progress.css({
-	            "height": percentageAmount + "%"
-	        });
-	        $progress.find(".amount").fadeIn(500);
-	    }
-	}
-	    </script>
-
-    
-    
+    </script>
   </body>
 </html>
