@@ -23,8 +23,9 @@ For data subscribed from photon cloud, the output circuit will light up correspo
 ![][output2]
 ![][output3]
 
-[web]:https://github.com/Zhiyuan1991/HCIN720-IA2/tree/master/images/web.png
-[distancefunction]:https://github.com/Zhiyuan1991/HCIN720-IA2/tree/master/images/distance_function.jpg
-![][output1]:https://github.com/Zhiyuan1991/HCIN720-IA2/tree/master/images/close.JPG
-![][output2]:https://github.com/Zhiyuan1991/HCIN720-IA2/tree/master/images/far.JPG
-![][output3]:https://github.com/Zhiyuan1991/HCIN720-IA2/tree/master/images/alert.JPG
+————
+[web]:https://github.com/Zhiyuan1991/HCIN720-IA2/raw/master/images/web.png
+[distancefunction]:https://github.com/Zhiyuan1991/HCIN720-IA2/raw/master/images/distance_function.jpg
+![][output1]:https://github.com/Zhiyuan1991/HCIN720-IA2/raw/master/images/close.JPG
+![][output2]:https://github.com/Zhiyuan1991/HCIN720-IA2/raw/master/images/far.JPG
+![][output3]:https://github.com/Zhiyuan1991/HCIN720-IA2/raw/master/images/alert.JPG
