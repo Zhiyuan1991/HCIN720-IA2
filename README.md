@@ -8,7 +8,7 @@ Photon reads analog voltage output from Proximity sensor. There is a linear func
 
 ![][distancefunction]
 
-From the collected samples I computed the equation for computing distance by voltage:
+From the collected samples I computed the equation:
 distance=24063/(voltage-294)
 
 ##Visualization
