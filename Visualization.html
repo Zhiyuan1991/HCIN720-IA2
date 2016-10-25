@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Progress Meter "Distance Meter"</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    
+    
+    
+    
+  </head>
+
+  <body>
+
+        
+
+
+	<div id="content">
+		<div id="thermometer">
+			<div class="track">
+    		<div class="goal">
+    			<div class="amount">80 </div>
+    		</div>
+    		<div class="progress">
+    			<div class="amount">0 </div>
+    		</div>
+    		</div>
+		</div>
+	</div>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+	
+	<span id="data"></span><br>
+	<span id="tstamp"></span>
+	<br><br>
+	<button onclick="start()">Connect</button>
+	
+	<script type="text/javascript">
+		var d=0;
+	    function start() {
+
+	        document.getElementById("data").innerHTML = "Waiting for data...";
+	        var deviceID = "380025001347343338333633";
+	        var accessToken = "8734299b639b819fcf341e4874fee78f80a03351";
+	        var eventSource = new EventSource("https://api.spark.io/v1/devices/" + deviceID + "/events/?access_token=" + accessToken);
+
+	        eventSource.addEventListener('open', function(e) {
+	            console.log("Opened!"); },false);
+
+	        eventSource.addEventListener('error', function(e) {
+	            console.log("Errored!"); },false);
+
+	        eventSource.addEventListener('SensorData', function(e) {
+	            var parsedData = JSON.parse(e.data);
+	            var tempSpan = document.getElementById("data");
+	            var tsSpan   = document.getElementById("tstamp");
+				
+				d=24063/(parsedData.data-294);
+		
+				tempSpan.innerHTML = "Distance: "+d+"cm";
+	            tempSpan.style.fontSize = "28px";
+	            tsSpan.innerHTML = "At timestamp " + parsedData.published_at;
+	            tsSpan.style.fontSize = "9px";
+				thermometer(80,Math.min(d,80),false);
+	        }, false);
+			
+	    }
+	
+	
+	//originally from http://stackoverflow.com/questions/149055/how-can-i-format-numbers-as-money-in-javascript
+	function formatCurrency(n, c, d, t) {
+	    "use strict";
+
+	    var s, i, j;
+
+	    c = isNaN(c = Math.abs(c)) ? 2 : c;
+	    d = d === undefined ? "." : d;
+	    t = t === undefined ? "," : t;
+
+	    s = n < 0 ? "-" : "";
+	    i = parseInt(n = Math.abs(+n || 0).toFixed(c), 10) + "";
+	    j = (j = i.length) > 3 ? j % 3 : 0;
+
+	    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+	}
+
+	/**
+	 * Thermometer Progress meter.
+	 * This function will update the progress element in the "thermometer"
+	 * to the updated percentage.
+	 * If no parameters are passed in it will read them from the DOM
+	 *
+	 * @param {Number} goalAmount The Goal amount, this represents the 100% mark
+	 * @param {Number} progressAmount The progress amount is the current amount
+	 * @param {Boolean} animate Whether to animate the height or not
+	 *
+	 */
+	function thermometer(goalAmount, progressAmount, animate) {
+	    "use strict";
+
+	    var $thermo = $("#thermometer"),
+	        $progress = $(".progress", $thermo),
+	        $goal = $(".goal", $thermo),
+	        percentageAmount;
+
+	    goalAmount = goalAmount || parseFloat( $goal.text() ),
+		//goalAmount = goalAmount || d,
+	    progressAmount = progressAmount || parseFloat( $progress.text() ),
+	    percentageAmount =  Math.min( Math.round(progressAmount / goalAmount * 1000) / 10, 100); //make sure we have 1 decimal point
+
+	    //let's format the numbers and put them back in the DOM
+	    $goal.find(".amount").text( formatCurrency( goalAmount ) +"cm");
+	    $progress.find(".amount").text(formatCurrency( progressAmount ) +"cm");
+
+
+	    //let's set the progress indicator
+	    $progress.find(".amount").hide();
+	    if (animate !== false) {
+	        $progress.animate({
+	            "height": percentageAmount + "%"
+	        }, 1200, function(){
+	            $(this).find(".amount").fadeIn(500);
+	        });
+	    }
+	    else {
+	        $progress.css({
+	            "height": percentageAmount + "%"
+	        });
+	        $progress.find(".amount").fadeIn(500);
+	    }
+	}
+	    </script>
+
+    
+    
+  </body>
+</html>
