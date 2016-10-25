@@ -39,7 +39,6 @@ void setup()
     strip.show(); // Initialize all pixels to 'off'
     //subscribe
     Particle.subscribe("SensorData", GetData,"380025001347343338333633");
-    //Particle.subscribe("https://api.spark.io/v1/devices/380025001347343338333633 /events/?access_token=8734299b639b819fcf341e4874fee78f80a03351/SensorData", GetData);
     
     Serial.begin(9600);
 }
@@ -55,7 +54,7 @@ void loop()
         Spark.publish("SensorData",publishString);
     }
     
-    //int rval = (int)(rand() * scale * (data_max - data_min + 1) + data_min);//generate dumy data
+    //int rval = (int)(rand() * scale * (data_max - data_min + 1) + data_min); //generate dumy data
     meter(sub_sensor_data,200);
     //Serial.println(sub_sensor_data);
 
@@ -68,7 +67,7 @@ void GetData(const char *event, const char *data){
 
 void meter(int data,int wait)
 {
-    double d=24063/double(data-294);
+    double d=24063/double(data-294); //compute distance
     for(int i=0; i<16; i++){
         strip.setPixelColor(i, strip.Color(0,0,0));
     }
@@ -83,14 +82,16 @@ void meter(int data,int wait)
     int R=(data-data_min)*254/(data_max-data_min)+1;
     int G=255-R;
     Serial.println(String(data)+","+String(d));
-    if (Pixel_nums<14){
+    if (Pixel_nums<14)
+    {
         for(int i=0; i<Pixel_nums; i++) {
             strip.setPixelColor(i, strip.Color(R,G,0));
         }
         strip.show();
         delay(wait);
     }
-    else {
+    else //blink alert
+    {
             for(int i=0; i<Pixel_nums; i++) {
                 strip.setPixelColor(i, strip.Color(R,G,255));
                 
