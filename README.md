@@ -17,7 +17,7 @@ I edited the [Progress Meter "Thermometer”](https://codepen.io/afterlight/pen/
 ![][web]
 
 ##Output circuit
-For data subscribed from photon cloud, the output circuit will light up corresponding LEDs on Neopixel ring. The closer the distance is, the more LEDs will be lighted up.  As the number of lighting LEDs increasing, the color of LEDs will become more red and when distance is close than 10cm, the LEDs will blink red and blue to show a alert.
+For data subscribed from photon cloud, the output circuit will light up corresponding LEDs on Neopixel ring. The closer the distance is, the more LEDs will be lighted up.  As the number of lighting LEDs increasing, the color of LEDs will become more red and when distance is closer than 10cm, the LEDs will blink red and blue to show a alert.
 
 ![][output1]
 ![][output2]

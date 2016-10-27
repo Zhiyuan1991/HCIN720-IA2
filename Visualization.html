@@ -94,8 +94,8 @@
 	    function start() 
 		{
 	        document.getElementById("data").innerHTML = "Waiting for data...";
-	        var deviceID = "380025001347343338333633";
-	        var accessToken = "8734299b639b819fcf341e4874fee78f80a03351";
+	        var deviceID = "";
+	        var accessToken = "";
 	        var eventSource = new EventSource("https://api.spark.io/v1/devices/" + deviceID + "/events/?access_token=" + accessToken);
 
 	        eventSource.addEventListener('open', function(e) {
