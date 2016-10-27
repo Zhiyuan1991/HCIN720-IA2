@@ -12,7 +12,7 @@ From the collected samples I computed the equation:
 distance=24063/(voltage-294)
 
 ##Visualization
-I edited the [Progress Meter "Thermometer”](https://codepen.io/afterlight/pen/otHrL) to make a distance meter. This website script will read photon published data and display the meter graph. It’s a new visualization methods compared with IA1.
+I edited the [Progress Meter "Thermometer”](https://codepen.io/afterlight/pen/otHrL) to make a [distance meter](http://cdn.rawgit.com/Zhiyuan1991/HCIN720-IA2/master/Visualization.html). This website script will read photon published data and display the meter graph. It’s a new visualization methods compared with IA1.
 
 ![][web]
 
